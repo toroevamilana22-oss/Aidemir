@@ -1,0 +1,582 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Всё лучшее — для Айдемира ❤️</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(180deg, #fff0f5 0%, #f7eaf8 25%, #fdf0f7 50%, #f4e8f7 75%, #fff0f5 100%);
+            min-height: 100vh;
+            color: #30252d;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 15px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Анимированный плавающий фон из сердечек */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .bg-heart {
+            position: absolute;
+            color: rgba(155, 99, 125, 0.15);
+            font-size: 24px;
+            animation: floatUp 12s infinite linear;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(105vh) scale(0.8) rotate(0deg);
+                opacity: 0;
+            }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% {
+                transform: translateY(-10vh) scale(1.2) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 750px;
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Карточки */
+        .card {
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(14px);
+            border: 3px solid #f5ebf2;
+            border-radius: 40px;
+            padding: 50px 35px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(155, 99, 125, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 22px 45px rgba(155, 99, 125, 0.12);
+        }
+
+        /* Текстовые стили */
+        .top-text {
+            font-size: 13px;
+            color: #9b637d;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+
+        .name {
+            font-size: 48px;
+            font-weight: 800;
+            color: #30252d;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+
+        .heart-icon {
+            font-size: 52px;
+            color: #9b637d;
+            margin: 15px 0;
+            display: inline-block;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .description {
+            font-size: 17px;
+            color: #665b63;
+            line-height: 1.75;
+        }
+
+        /* Сетка причин */
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+            margin-top: 25px;
+            text-align: left;
+        }
+
+        .reason-item {
+            background: #fff8fb;
+            border: 1px solid #f5e1eb;
+            padding: 20px 22px;
+            border-radius: 22px;
+            font-size: 15.5px;
+            color: #4b3c46;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .reason-item:hover {
+            background: #ffffff;
+            border-color: #9b637d;
+            transform: translateX(6px);
+        }
+
+        .reason-number {
+            font-size: 17px;
+            font-weight: 800;
+            color: #9b637d;
+            min-width: 32px;
+            height: 32px;
+            background: rgba(155, 99, 125, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Галерея карточек */
+        .moments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .moment-card {
+            background: #fdf5f9;
+            border: 1px solid #f0e1e9;
+            border-radius: 25px;
+            padding: 25px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .moment-card:hover {
+            background: #ffffff;
+            border-color: #9b637d;
+            transform: translateY(-4px);
+        }
+
+        .moment-icon {
+            font-size: 34px;
+            margin-bottom: 12px;
+        }
+
+        .moment-title {
+            font-weight: 700;
+            font-size: 16px;
+            color: #30252d;
+            margin-bottom: 6px;
+        }
+
+        .moment-desc {
+            font-size: 13.5px;
+            color: #786973;
+            line-height: 1.5;
+        }
+
+        /* Музыкальный плеер настроение */
+        .playlist-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .track-item {
+            background: #fcf4f8;
+            border: 1px solid #f3deea;
+            padding: 15px 20px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .track-item:hover {
+            background: #ffffff;
+            border-color: #9b637d;
+        }
+
+        .track-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .track-icon {
+            font-size: 22px;
+            color: #9b637d;
+        }
+
+        .track-name {
+            font-weight: 600;
+            font-size: 15px;
+            color: #30252d;
+        }
+
+        .track-vibe {
+            font-size: 13px;
+            color: #8c7884;
+        }
+
+        /* Интерактивное колесо / генератор желаний */
+        .wish-box {
+            background: #fdf2f7;
+            border: 2px dashed #9b637d;
+            border-radius: 25px;
+            padding: 30px 20px;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #30252d;
+            min-height: 95px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        /* Купоны желаний */
+        .coupons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .coupon-card {
+            background: linear-gradient(135deg, #fff5fa 0%, #f6eaf7 100%);
+            border: 2px dashed #9b637d;
+            border-radius: 25px;
+            padding: 25px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .coupon-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #30252d;
+            margin-bottom: 8px;
+        }
+
+        .coupon-desc {
+            font-size: 14px;
+            color: #665b63;
+            margin-bottom: 15px;
+        }
+
+        /* Скрытые конверты */
+        .secret-box {
+            display: none;
+            margin-top: 25px;
+            padding: 25px;
+            background: #fff5fa;
+            border-radius: 22px;
+            border: 2px dashed #9b637d;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Кнопки */
+        .btn {
+            background-color: #30252d;
+            color: #ffffff;
+            border: none;
+            border-radius: 25px;
+            padding: 16px 38px;
+            font-size: 15.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(48, 37, 45, 0.15);
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(48, 37, 45, 0.25);
+            background-color: #41323c;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #9b637d;
+            border: 2px solid #9b637d;
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: #9b637d;
+            color: #ffffff;
+        }
+
+        .btn-small {
+            padding: 8px 20px;
+            font-size: 13px;
+            border-radius: 18px;
+            margin-top: 5px;
+        }
+
+        /* Интерактивный счетчик */
+        .counter-box {
+            font-size: 42px;
+            font-weight: 800;
+            color: #9b637d;
+            margin: 15px 0 5px 0;
+        }
+
+        /* Подвал */
+        footer {
+            margin-top: 35px;
+            font-size: 14px;
+            color: #9b637d;
+            text-align: center;
+            opacity: 0.9;
+            padding-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Фон из летающих сердечек -->
+    <div class="floating-hearts">
+        <div class="bg-heart" style="left: 10%; animation-delay: 0s;">♡</div>
+        <div class="bg-heart" style="left: 25%; animation-delay: 3s;">✨</div>
+        <div class="bg-heart" style="left: 45%; animation-delay: 1s;">♡</div>
+        <div class="bg-heart" style="left: 65%; animation-delay: 4s;">💖</div>
+        <div class="bg-heart" style="left: 85%; animation-delay: 2s;">♡</div>
+    </div>
+
+    <div class="container">
+
+        <!-- 1. ГЛАВНЫЙ БАННЕР -->
+        <div class="card">
+            <div class="top-text">персональная страница</div>
+            <h1 class="name">Для Айдемира</h1>
+            <div class="heart-icon">♡</div>
+            <p class="description">
+                Я сделала этот сайт невероятно большим, чтобы собралось абсолютно всё лучшее: тёплые слова, интерактивные сюрпризы, купоны и место для твоих улыбок. Добро пожаловать!
+            </p>
+        </div>
+
+        <!-- 2. ИСКРЕННЕЕ ПОСЛАНИЕ -->
+        <div class="card">
+            <div class="top-text">письмо для тебя</div>
+            <p class="description">
+                В жизни так важно иметь людей, от которых на душе становится спокойно и радостно. Каждый день с тобой приносит свои особенные эмоции. Спасибо за твоё добро, за твой характер, поддержку и просто за то, что ты делаешь этот мир теплее!
+            </p>
+            
+            <button class="btn btn-secondary" onclick="toggleSecret()">Прочитать закрытую записку 💌</button>
+
+            <div class="secret-box" id="secretBox">
+                <p class="description" style="color: #30252d; font-style: italic;">
+                    «Знаешь, бывают люди, с которыми любое время становится ценным. Ты именно такой человек. Никогда не сомневайся в себе и помни, насколько ты важен!»
+                </p>
+            </div>
+        </div>
+
+        <!-- 3. РАСШИРЕННЫЙ СПИСОК (7 ПРИЧИН) -->
+        <div class="card">
+            <div class="top-text">7 причин, почему ты уникален</div>
+            
+            <div class="reasons-grid">
+                <div class="reason-item">
+                    <span class="reason-number">01</span>
+                    <span><b>Твоя поддержка:</b> Ты умеешь выслушать так, что сразу становится легче.</span>
+                </div>
+                <div class="reason-item">
+                    <span class="reason-number">02</span>
+                    <span><b>Твоя улыбка:</b> Она моментально заставляет улыбнуться в ответ!</span>
+                </div>
+                <div class="reason-item">
+                    <span class="reason-number">03</span>
+                    <span><b>Твоё чувство юмора:</b> С тобой легко смеяться над самыми просыми вещами.</span>
+                </div>
+                <div class="reason-item">
+                    <span class="reason-number">04</span>
+                    <span><b>Твоя искренность:</b> С тобой не нужно притворяться — можно быть собой.</span>
+                </div>
+                <div class="reason-item">
+                    <span class="reason-number">05</span>
+                    <span><b>Твоё внимание:</b> Замечаешь даже самые маленькие и важные детали.</span>
+                </div>
+                <div class="reason-item">
+                    <span class="reason-number">06</span>
+                    <span><b>Твоя спокойная уверенность:</b> Рядом с тобой всегда чувствуешь надежность.</span>
+                </div>
+                <div class="reason-item">
+                    <span class="reason-number">07</span>
+                    <span><b>Ты — это ты:</b> Настоящий, согревающий и по-настоящему особенный.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. КАРТОЧКИ УЮТНЫХ МОМЕНТОВ -->
+        <div class="card">
+            <div class="top-text">наши душевные ассоциации</div>
+            
+            <div class="moments-grid">
+                <div class="moment-card">
+                    <div class="moment-icon">☕</div>
+                    <div class="moment-title">Тёплые разговоры</div>
+                    <div class="moment-desc">Беседы обо всём, которые пролетают за одну секунду.</div>
+                </div>
+                <div class="moment-card">
+                    <div class="moment-icon">🌟</div>
+                    <div class="moment-title">Особый свет</div>
+                    <div class="moment-desc">Способность поднять настроение даже в самый хмурый день.</div>
+                </div>
+                <div class="moment-card">
+                    <div class="moment-icon">🤗</div>
+                    <div class="moment-title">Забота и уют</div>
+                    <div class="moment-desc">Чувство абсолютной комфортности и душевного спокойствия.</div>
+                </div>
+                <div class="moment-card">
+                    <div class="moment-icon">🌙</div>
+                    <div class="moment-title">Ночные мысли</div>
+                    <div class="moment-desc">Время, когда делятся самым сокровенным и важным.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. ПЛЕЙЛИСТ НАСТРОЕНИЯ -->
+        <div class="card">
+            <div class="top-text">плейлист душевного тепла</div>
+            <p class="description">Музыкальные вайбы, которые ассоциируются с тобой:</p>
+            
+            <div class="playlist-container">
+                <div class="track-item">
+                    <div class="track-info">
+                        <span class="track-icon">🎵</span>
+                        <div>
+                            <div class="track-name">Уютный вечер</div>
+                            <div class="track-vibe">Спокойные акустические мелодии</div>
+                        </div>
+                    </div>
+                    <span class="track-vibe">✨ Спокойствие</span>
+                </div>
+
+                <div class="track-item">
+                    <div class="track-info">
+                        <span class="track-icon">🎧</span>
+                        <div>
+                            <div class="track-name">Заряд душевности</div>
+                            <div class="track-vibe">Легкий и вдохновляющий ритм</div>
+                        </div>
+                    </div>
+                    <span class="track-vibe">🚀 Вдохновение</span>
+                </div>
+
+                <div class="track-item">
+                    <div class="track-info">
+                        <span class="track-icon">🎹</span>
+                        <div>
+                            <div class="track-name">Ночные разговоры</div>
+                            <div class="track-vibe">Нежная фортепианная музыка</div>
+                        </div>
+                    </div>
+                    <span class="track-vibe">🌙 Гармония</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. ИНТЕРАКТИВНЫЕ КУПОНЫ -->
+        <div class="card">
+            <div class="top-text">виртуальные купоны желания</div>
+            <p class="description">Эти купоны Айдемир может задействовать в любой момент!</p>
+
+            <div class="coupons-grid">
+                <div class="coupon-card">
+                    <div class="coupon-title">🎫 Купон на вкусняшку</div>
+                    <div class="coupon-desc">Даёт право на любой любимый напиток или десерт.</div>
+                    <button class="btn btn-secondary btn-small" onclick="useCoupon('Вкусняшка')">Активировать ✨</button>
+                </div>
+                <div class="coupon-card">
+                    <div class="coupon-title">🎫 Купон: Безусловная поддержка</div>
+                    <div class="coupon-desc">Выслушать, понять и быть на твоей стороне в любой ситуации.</div>
+                    <button class="btn btn-secondary btn-small" onclick="useCoupon('Поддержка')">Активировать ✨</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. ГЕНЕРАТОР КОМПЛИМЕНТОВ И ПРЕДСКАЗАНИЙ -->
+        <div class="card">
+            <div class="top-text">генератор хорошего дня</div>
+            <p class="description">Нажми на кнопку ниже, чтобы узнать твое предсказание или комплимент на сегодня!</p>
+            
+            <div class="wish-box" id="wishBox">
+                Нажми кнопку 👇
+            </div>
+
+            <button class="btn" onclick="generateWish()">Получить предсказание ✨</button>
+        </div>
+
+        <!-- 8. СЧЕТЧИК УЛЫБОК -->
+        <div class="card">
+            <div class="top-text">интерактивный генератор улыбок</div>
+            <p class="description">Нажимай кнопку, чтобы накрутить счётчик радости и позитива!</p>
+            
+            <div class="counter-box" id="smileCounter">1</div>
+            <p style="font-size: 14px; color: #9b637d;">Отправленных лучей тепла</p>
+
+            <button class="btn btn-secondary" onclick="addSmile()">Добавить ещё улыбку 😊</button>
+        </div>
+
+        <!-- 9. ФИНАЛЬНАЯ РЕАКЦИЯ -->
+        <div class="card">
+            <div class="top-text">финальное обнимание</div>
+            <div class="heart-icon">💖</div>
+            <p class="description">
+                Пусть эта страница станет для тебя местом, куда можно зайти в любой момент и улыбнуться!
+            </p>
+            <button class="btn" onclick="sendLove()">Отправить обнимашки 🤗</button>
+        </div>
+
+    </div>
+
+    <footer>
+        Создано с любовью специально для Айдемира • ❤️
+    </footer>
+
+
